@@ -1,0 +1,87 @@
+use C1119h1DB;
+create table Customers(
+customers_number int(20) not null,
+fullname varchar(50) not null,
+address varchar(100) not null,
+email varchar(40)not null,
+phone int(10) not null,
+constraint primary key(customers_number)
+);
+create table accounts(
+account_number int (15) not null,
+account_type varchar(30) not null,
+account_date_start date not null,
+account_blance int(50) not null,
+customer_number int(20),
+constraint primary key(account_number),
+constraint FK_accounts_Customers foreign key(customer_number) references Customers(customers_number)
+);
+create table Transactions(
+tran_number int(20) not null,
+account_number int (15),
+transactions_date date,
+amounts int (10)  not null,
+descriptions varchar(255) not null,
+TSaccount_number int(15),
+constraint FK_Transactions_accounts foreign key(TSaccount_number)references accounts(account_number)
+);
+insert into C1119h1DB.Customers (customers_number,fullname,address,email,phone)
+values(123456,"Le Van Hoang"," khoai chau hung yen","hoanglv92@gmail.com",0987654321);
+insert into C1119h1DB.accounts (
+account_number,account_type,account_date_start,account_blance,customer_number)
+values(01,"nomal","2020/01/01",100,123456
+);
+/*xoas bang*/
+DROP TABLE customers;
+/* cú pháp rút gọn để thêm cột mới*/
+ALTER TABLE contacts
+  ADD last_name varchar(40) NOT NULL
+    AFTER contact_id,
+  ADD first_name varchar(35) NULL
+    AFTER last_name;
+/* Cú pháp để chỉnh sửa mô tả của một cột
+ALTER TABLE contacts
+  MODIFY last_name varchar(50) NULL;
+/*Cú pháp để xoá một cột trong bảng
+ALTER TABLE table_name
+  DROP COLUMN column_name;
+/*Cú pháp để thay đổi tên cột
+ALTER TABLE table_name
+  CHANGE COLUMN old_name new_name 
+    column_definition
+/*Cú pháp để đổi tên bảng
+ALTER TABLE contacts
+  RENAME TO people;
+/* Mệnh đề GROUP BY thường được sử dụng cùng với các hàm như COUNT(), MAX(), MIN(), SUM(), AVG() 
+để tách thành các nhóm con theo một cột (hoặc nhiều cột).
+
+SELECT column_name(s)
+FROM table_name
+WHERE condition
+GROUP BY column_name(s)
+ORDER BY column_name(s);
+Ví dụ: Hiển thị nhà cung cấp và số lượng sản phẩm được cung cấp bởi từng nhà cung cấp, sắp xếp theo thứ tự tăng dần nhà cung cấp, cho tất cả các hãng Motorcyrcles:
+
+select productVendor, count(productcode) from product
+where productline = 'Motorcycles'
+group by productVendor
+order by productVendor
+
+/*Mệnh đề HAVING có chức năng lọc dữ liệu như mệnh đề WHERE nhưng sử dụng cùng với các hàm SQL.
+
+SELECT column_name(s)
+FROM table_name
+WHERE condition
+GROUP BY column_name(s)
+HAVING condition
+ORDER BY column_name(s);
+Ví dụ: Hiển thị nhà cung cấp và số lượng sản phẩm lớn hơn 10 được cung cấp bởi từng nhà cung cấp, sắp xếp theo thứ tự tăng dần nhà cung cấp, cho tất cả các hãng Motorcyrcles: 
+
+select productVendor, count(productcode) from product
+where productline = 'Motorcycles'
+group by productVendor
+having count(productCode) > 10
+order by productVendor
+
+
+
